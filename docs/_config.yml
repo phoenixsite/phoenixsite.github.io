@@ -18,21 +18,27 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@example.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+title:
+  en: Phoenix site's site
+  es: El sitio del sitio del fénix
+email: phoenixsitegit@outlook.com
+description:
+  en: Carlos Romero Cruz's personal page.
+  es: Página personal de Carlos Romero Cruz.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+twitter_username:
+github_username:  phoenixsite
 
 # Build settings
-theme: minima
-plugins:
-  - jekyll-feed
+# theme: minima
+remote_theme: jekyll/minima
+plugins: [jekyll-polyglot, jekyll-paginate, jekyll-redirect-from, jekyll-feed, jekyll-remote-theme, jekyll-seo-tag]
+permalink: pretty
+languages: ["es", "en"]
+default_lang: "es"
+parallel_localization: false
+url: https://phoenixsite.github.io
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -53,3 +59,25 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+minima:
+  date_formats:
+    en: "%b. %e, %Y" # e.g.: Sep. 1, 2022
+    es: "%d/%m/%y" # e.g.: 1/9/22
+  show_excerpts: true
+  nav_pages:
+    en:
+      - projects-en.md
+      - cv-en.md
+      - about-en.md
+    es:
+      - projects-es.md
+      - cv-es.md
+      - about-es.md
+
+sass:
+  quiet_deps: true
+  silence_deprecations: [import]
+
+whitelist:
+  - jekyll-redirect-from
