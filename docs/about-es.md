@@ -1,7 +1,6 @@
 ---
 layout: page
-permalink: sobre-mi/
+permalink: about/
 title: Sobre mí
-page_id: about
 lang: es
 ---

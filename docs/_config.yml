@@ -1,79 +1,45 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-#
-# If you need help with YAML syntax, here are some quick references for you:
-# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
-# https://learnxinyminutes.com/docs/yaml/
-#
-# Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
 
 title:
   en: Phoenix site's site
   es: El sitio del sitio del fénix
 email: phoenixsitegit@outlook.com
 description:
-  en: Carlos Romero Cruz's personal page.
-  es: Página personal de Carlos Romero Cruz.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username:
-github_username:  phoenixsite
+  en: Carlos Romero Cruz, computer engineer and mathematician, passionate about Information and Machine Learning Security.
+  es: Carlos Romero Cruz, ingeniero informático y matemático, apasionado de la seguridad en la información y en el aprendizaje automático.
+baseurl: ""
+url: https://phoenixsite.github.io
 
 # Build settings
 # theme: minima
 remote_theme: jekyll/minima
-plugins: [jekyll-polyglot, jekyll-paginate, jekyll-redirect-from, jekyll-feed, jekyll-remote-theme, jekyll-seo-tag]
-permalink: pretty
+plugins:
+  - jekyll-feed
+  - jekyll-polyglot
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-remote-theme
+  - jekyll-seo-tag
 languages: ["es", "en"]
 default_lang: "es"
 parallel_localization: false
-url: https://phoenixsite.github.io
-
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
 
 minima:
   date_formats:
     en: "%b. %e, %Y" # e.g.: Sep. 1, 2022
     es: "%d/%m/%y" # e.g.: 1/9/22
+  social_links:
+    - { icon: "github", titles: {en: Github profile, es: Perfil de Github}, url: "https://github.com/phoenixsite/" }
+  feed_title:
+    en: Subscribe to syndication feed
+    es: Suscríbete al canal de difusión
   show_excerpts: true
   nav_pages:
     en:
       - projects-en.md
       - cv-en.md
-      - about-en.md
     es:
       - projects-es.md
       - cv-es.md
-      - about-es.md
 
 sass:
   quiet_deps: true

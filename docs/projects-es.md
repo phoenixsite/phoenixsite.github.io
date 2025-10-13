@@ -1,7 +1,6 @@
 ---
 layout: page
-permalink: /proyectos/
+permalink: /projects/
 title: Proyectos
 lang: es
-page_id: projects
 ---
