@@ -48,6 +48,10 @@ sass:
 safelist:
   - jekyll-redirect-from
 
-# Archivos con prefijo "_" que Jekyll no copiaría a _site (cabeceras de Cloudflare Pages)
+# Archivos con prefijo "_" que Jekyll no copiaría a _site (cabeceras de Cloudflare)
 include:
   - _headers
+
+# Configuración de despliegue: no debe publicarse en la web
+exclude:
+  - wrangler.jsonc
