@@ -7,17 +7,15 @@ description:
   en: Carlos Romero Cruz, computer engineer and mathematician, passionate about Information and Machine Learning Security.
   es: Carlos Romero Cruz, ingeniero informático y matemático, apasionado de la seguridad en la información y en el aprendizaje automático.
 baseurl: ""
-url: https://phoenixsite.github.io
+url: https://phoenixsite.dev
 
 # Build settings
-# theme: minima
-remote_theme: jekyll/minima
+# Tema instalado como gema (ver Gemfile); evita descargas remotas en el build
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-polyglot
-  - jekyll-paginate
   - jekyll-redirect-from
-  - jekyll-remote-theme
   - jekyll-seo-tag
 languages: ["es", "en"]
 default_lang: "es"
@@ -35,9 +33,11 @@ minima:
   show_excerpts: true
   nav_pages:
     en:
+      - about-en.md
       - projects-en.md
       - cv-en.md
     es:
+      - about-es.md
       - projects-es.md
       - cv-es.md
 
@@ -45,5 +45,9 @@ sass:
   quiet_deps: true
   silence_deprecations: [import]
 
-whitelist:
+safelist:
   - jekyll-redirect-from
+
+# Archivos con prefijo "_" que Jekyll no copiaría a _site (cabeceras de Cloudflare Pages)
+include:
+  - _headers

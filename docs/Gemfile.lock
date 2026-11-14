@@ -311,7 +311,6 @@ DEPENDENCIES
   jekyll-paginate
   jekyll-polyglot
   jekyll-redirect-from
-  jekyll-remote-theme
   jekyll-seo-tag
   minima (= 2.5.1)
   tzinfo (>= 1, < 3)
