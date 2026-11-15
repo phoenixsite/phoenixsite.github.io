@@ -1,0 +1,20 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPages, pageSlug } from '../../lib/pages';
+
+// Una página por cada fichero de src/content/pages/en/
+export async function getStaticPaths() {
+  const pages = await getPages('en');
+  return pages.map((page) => ({ params: { slug: pageSlug(page.id) }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const altPath = page.data.altPath ?? `/${pageSlug(page.id)}/`;
+---
+
+<Base title={page.data.title} description={page.data.description} lang="en" altPath={altPath}>
+  <h1>{page.data.title}</h1>
+  <Content />
+</Base>

@@ -1,0 +1,22 @@
+---
+import { render } from 'astro:content';
+import 'katex/dist/katex.min.css';
+import Base from '../../layouts/Base.astro';
+import { getPosts, postSlug } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPosts('es');
+  return posts.map((post) => ({ params: { slug: postSlug(post.id) }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Base title={post.data.title} description={post.data.description} lang="es" altPath="/blog/">
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">{post.data.pubDate.toLocaleDateString('es-ES')}</p>
+    <Content />
+  </article>
+</Base>

@@ -1,0 +1,29 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "import": ["@cspell/dict-es-es/cspell-ext.json"],
+  "files": ["src/content/**/*.{md,mdx}"],
+  "ignorePaths": ["node_modules", "dist", ".astro", "pnpm-lock.yaml"],
+  "ignoreRegExpList": [
+    "/^(title|description|pubDate|lang|draft|altPath):/gm",
+    "/\\$\\$[\\s\\S]*?\\$\\$/g",
+    "/\\$[^$\\n]+\\$/g",
+    "/`[^`\\n]+`/g"
+  ],
+  "overrides": [
+    { "filename": "**/es/**", "language": "es" },
+    { "filename": "**/en/**", "language": "en" }
+  ],
+  "words": [
+    "ciberseguridad",
+    "CEFR",
+    "CICLON",
+    "English",
+    "Jaén",
+    "jitter",
+    "jtsec",
+    "leeway",
+    "LINCE",
+    "SIMIDAT"
+  ]
+}

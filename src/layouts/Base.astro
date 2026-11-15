@@ -1,0 +1,189 @@
+---
+import { siteConfig, type Lang } from '../config';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang: Lang;
+  // Ruta equivalente en el otro idioma (sin el prefijo /en), para el selector
+  altPath?: string;
+}
+
+const { title, lang, altPath = '/' } = Astro.props;
+const description = Astro.props.description ?? siteConfig.description[lang];
+const siteName = siteConfig.name[lang];
+
+// Rutas del menú: se generan a partir del idioma
+const prefix = lang === 'en' ? '/en' : '';
+const navItems = [
+  { href: `${prefix}/`, label: lang === 'en' ? 'Home' : 'Inicio' },
+  { href: `${prefix}/projects/`, label: lang === 'en' ? 'Projects' : 'Proyectos' },
+  { href: `${prefix}/cv/`, label: 'CV' },
+  { href: `${prefix}/blog/`, label: 'Blog' }
+];
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {siteName}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(currentPath, siteConfig.url)} />
+    <link rel="alternate" hreflang="es" href={new URL(altPath, siteConfig.url)} />
+    <link rel="alternate" hreflang="en" href={new URL(`/en${altPath}`, siteConfig.url)} />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href={`${prefix}/rss.xml`} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <!-- Aplica el tema antes de pintar para evitar el parpadeo. Por defecto: oscuro. -->
+    <script is:inline>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrapper">
+        <a class="site-title" href={`${prefix}/`}>{siteName}</a>
+        <nav aria-label={lang === 'en' ? 'Main' : 'Principal'}>
+          <ul>
+            {navItems.map((item) => (
+              <li>
+                <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div class="lang-switch" aria-label={lang === 'en' ? 'Language' : 'Idioma'}>
+          <a href={altPath} hreflang="es" lang="es" aria-current={lang === 'es' ? 'true' : undefined}>es</a>
+          |
+          <a href={`/en${altPath}`} hreflang="en" lang="en" aria-current={lang === 'en' ? 'true' : undefined}>en</a>
+        </div>
+        <button
+          type="button"
+          class="theme-toggle"
+          data-label-to-light={lang === 'en' ? 'Switch to light mode' : 'Cambiar a modo claro'}
+          data-label-to-dark={lang === 'en' ? 'Switch to dark mode' : 'Cambiar a modo oscuro'}
+          aria-label={lang === 'en' ? 'Switch to light mode' : 'Cambiar a modo claro'}
+        >
+          ☀
+        </button>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="wrapper">
+        <slot />
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrapper">
+        <p>{siteConfig.author} · <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></p>
+        <p><a href={siteConfig.githubUrl}>GitHub</a></p>
+      </div>
+    </footer>
+
+    <script>
+      // Botón de cambio de tema: guarda la elección y actualiza el icono y su etiqueta
+      const root = document.documentElement;
+      const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+
+      function render() {
+        if (!button) return;
+        const dark = root.dataset.theme !== 'light';
+        button.textContent = dark ? '☀' : '☾';
+        button.setAttribute(
+          'aria-label',
+          (dark ? button.dataset.labelToLight : button.dataset.labelToDark) ?? ''
+        );
+      }
+
+      button?.addEventListener('click', () => {
+        const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+        root.dataset.theme = next;
+        try {
+          localStorage.setItem('theme', next);
+        } catch {
+          // Sin almacenamiento disponible: el cambio vale solo para esta visita
+        }
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Tema oscuro por defecto, también si el navegador no ejecuta JavaScript */
+  :root {
+    --text: #ececec;
+    --muted: #aab0b6;
+    --accent: #6cb6ff;
+    --bg: #161616;
+    --border: #333;
+    color-scheme: dark;
+  }
+  :root[data-theme='light'] {
+    --text: #1d1d1f;
+    --muted: #5f6368;
+    --accent: #0b5cad;
+    --bg: #fffdf9;
+    --border: #e4ddd2;
+    color-scheme: light;
+  }
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    padding: 0.35rem 0.55rem;
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .wrapper { max-width: 48rem; margin: 0 auto; padding: 0 1.25rem; }
+  a { color: var(--accent); }
+  .site-header { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+  .site-header .wrapper { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center; }
+  .site-title { font-weight: 700; text-decoration: none; color: var(--text); margin-right: auto; }
+  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; margin: 0; padding: 0; }
+  nav a { text-decoration: none; }
+  nav a[aria-current='page'] { font-weight: 700; }
+  .lang-switch a[aria-current='true'] { font-weight: 700; }
+  .page-content { padding: 2rem 0; min-height: 60vh; }
+  .site-footer { border-top: 1px solid var(--border); padding: 1.5rem 0; color: var(--muted); font-size: 0.9rem; }
+  .site-footer p { margin: 0.25rem 0; }
+  h1 { line-height: 1.2; }
+  .post-list { list-style: none; padding: 0; }
+  .post-list li { margin-bottom: 1.25rem; }
+  .post-meta { color: var(--muted); font-size: 0.9rem; }
+  .page-content li { margin-bottom: 0.5rem; }
+  .download {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 0.4rem;
+    text-decoration: none;
+    font-weight: 600;
+  }
+</style>

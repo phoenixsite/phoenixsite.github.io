@@ -1,0 +1,14 @@
+{
+  "config": {
+    "default": true,
+    // Longitud de línea: se escribe en párrafos largos sin saltos forzados
+    "MD013": false,
+    // HTML en línea: se usa para el botón de descarga del CV
+    "MD033": false,
+    // Primera línea como encabezado: el título va en el front matter
+    "MD041": false,
+    // Permite repetir encabezados solo si no son hermanos (por ejemplo "Experiencia" en cada sección)
+    "MD024": { "siblings_only": true }
+  },
+  "ignores": ["node_modules", "dist", ".astro"]
+}

@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, postSlug } from '../../lib/posts';
+
+const posts = await getPosts('es');
+---
+
+<Base title="Blog" lang="es" altPath="/blog/">
+  <h1>Blog</h1>
+  {posts.length === 0 && <p>Todavía no hay posts.</p>}
+  <ul class="post-list">
+    {posts.map((post) => (
+      <li>
+        <span class="post-meta">{post.data.pubDate.toLocaleDateString('es-ES')}</span>
+        <h2><a href={`/blog/${postSlug(post.id)}/`}>{post.data.title}</a></h2>
+        <p>{post.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

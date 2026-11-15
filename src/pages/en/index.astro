@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, postSlug } from '../../lib/posts';
+
+const posts = (await getPosts('en')).slice(0, 5);
+---
+
+<Base title="Home" lang="en" altPath="/">
+  <h1>Hi</h1>
+  <p>I'm Carlos, a computer engineer and mathematician. I'm interested in Information and Machine Learning Security.</p>
+
+  {posts.length > 0 && (
+    <section>
+      <h2>Latest posts</h2>
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <span class="post-meta">{post.data.pubDate.toLocaleDateString('en-GB')}</span>
+            <h3><a href={`/en/blog/${postSlug(post.id)}/`}>{post.data.title}</a></h3>
+            <p>{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>
